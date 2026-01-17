@@ -7,9 +7,33 @@ on:
   workflow_dispatch:
 
 jobs:
+  check-config:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check required variables
+        run: |
+          if [ -z "${{ vars.SITE_SUBDOMAIN }}" ]; then
+            echo "::error::SITE_SUBDOMAIN variable is not set. Please set it in Repository Settings > Secrets and variables > Actions > Variables"
+            exit 1
+          fi
+          echo "✓ SITE_SUBDOMAIN: ${{ vars.SITE_SUBDOMAIN }}"
+
+      - name: Check required secrets
+        run: |
+          missing=""
+          [ -z "${{ secrets.CLOUDFLARE_API_KEY }}" ] && missing="${missing}CLOUDFLARE_API_KEY "
+          [ -z "${{ secrets.CLOUDFLARE_EMAIL }}" ] && missing="${missing}CLOUDFLARE_EMAIL "
+          [ -z "${{ secrets.CLOUDFLARE_ACCOUNT_ID }}" ] && missing="${missing}CLOUDFLARE_ACCOUNT_ID "
+          [ -z "${{ secrets.CLOUDFLARE_ZONE_ID }}" ] && missing="${missing}CLOUDFLARE_ZONE_ID "
+          if [ -n "$missing" ]; then
+            echo "::error::Missing required secrets: ${missing}"
+            exit 1
+          fi
+          echo "✓ All required secrets are set"
+
   deploy:
     runs-on: ubuntu-latest
-    if: vars.SITE_SUBDOMAIN != ''
+    needs: check-config
     steps:
       - name: Checkout
         uses: actions/checkout@v6
