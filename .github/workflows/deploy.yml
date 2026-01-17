@@ -30,14 +30,6 @@ jobs:
       - name: Create .assetsignore
         run: echo "_worker.js" > dist/.assetsignore
 
-      - name: Deploy to Cloudflare Workers
-        uses: cloudflare/wrangler-action@v3
-        with:
-          command: deploy
-        env:
-          CLOUDFLARE_API_KEY: ${{ secrets.CLOUDFLARE_API_KEY }}
-          CLOUDFLARE_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
-
       - name: Get Cloudflare Account ID
         id: cf_account
         run: |
@@ -46,6 +38,13 @@ jobs:
         env:
           CLOUDFLARE_API_KEY: ${{ secrets.CLOUDFLARE_API_KEY }}
           CLOUDFLARE_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
+
+      - name: Deploy to Cloudflare Workers
+        run: npx wrangler deploy --name "${{ vars.SITE_SUBDOMAIN }}-xiyo-dev"
+        env:
+          CLOUDFLARE_API_KEY: ${{ secrets.CLOUDFLARE_API_KEY }}
+          CLOUDFLARE_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ steps.cf_account.outputs.account_id }}
 
       - name: Configure custom domain
         run: |

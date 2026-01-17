@@ -1,4 +1,4 @@
-name = "replica-template-00-xiyo-dev"
+# name은 deploy.yml에서 GitHub Variables(SITE_SUBDOMAIN)로 동적 설정
 compatibility_date = "2026-01-01"
 
 [assets]
