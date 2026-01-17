@@ -30,39 +30,12 @@ jobs:
       - name: Create .assetsignore
         run: echo "_worker.js" > dist/.assetsignore
 
-      - name: Deploy to Cloudflare Workers
-        run: npx wrangler deploy --name "${{ vars.SITE_SUBDOMAIN }}-xiyo-dev"
+      - name: Deploy to Cloudflare Workers with custom domain
+        run: |
+          npx wrangler deploy \
+            --name "${{ vars.SITE_SUBDOMAIN }}-xiyo-dev" \
+            --route "${{ vars.SITE_SUBDOMAIN }}.xiyo.dev/*"
         env:
           CLOUDFLARE_API_KEY: ${{ secrets.CLOUDFLARE_API_KEY }}
           CLOUDFLARE_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-
-      - name: Configure custom domain
-        run: |
-          SUBDOMAIN="${{ vars.SITE_SUBDOMAIN }}"
-          WORKER_NAME="${SUBDOMAIN}-xiyo-dev"
-          HOSTNAME="${SUBDOMAIN}.xiyo.dev"
-          ACCOUNT_ID="${{ secrets.CLOUDFLARE_ACCOUNT_ID }}"
-
-          echo "Setting up custom domain: $HOSTNAME -> $WORKER_NAME"
-
-          RESPONSE=$(curl -s -w "\n%{http_code}" -X POST \
-            "https://api.cloudflare.com/client/v4/accounts/${ACCOUNT_ID}/workers/domains" \
-            -H "X-Auth-Email: ${{ secrets.CLOUDFLARE_EMAIL }}" \
-            -H "X-Auth-Key: ${{ secrets.CLOUDFLARE_API_KEY }}" \
-            -H "Content-Type: application/json" \
-            -d "{
-              \"hostname\": \"${HOSTNAME}\",
-              \"service\": \"${WORKER_NAME}\",
-              \"environment\": \"production\"
-            }")
-
-          HTTP_CODE=$(echo "$RESPONSE" | tail -1)
-          BODY=$(echo "$RESPONSE" | sed '$d')
-
-          if [ "$HTTP_CODE" = "200" ] || [ "$HTTP_CODE" = "409" ]; then
-            echo "Custom domain configured successfully (or already exists)"
-          else
-            echo "Warning: Custom domain setup returned $HTTP_CODE"
-            echo "$BODY"
-          fi
