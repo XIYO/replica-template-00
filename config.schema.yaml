@@ -6,7 +6,7 @@
 template:
   name: replica-template-00
   description: Starlight 기반 문서 사이트 템플릿
-  screenshot: /screenshot.png
+  preview: https://replica-template-00.xiyo.dev
   version: 1.0.0
   repository: XIYO/replica-template-00
 
