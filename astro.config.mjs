@@ -11,6 +11,13 @@ export default defineConfig({
 	site: siteUrl,
 	output: 'static',
 	adapter: cloudflare(),
+	prefetch: {
+		prefetchAll: true,
+		defaultStrategy: 'hover',
+	},
+	experimental: {
+		clientPrerender: true,
+	},
 	integrations: [
 		starlight({
 			title: siteConfig.title,
