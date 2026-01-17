@@ -33,7 +33,7 @@ jobs:
       - name: Get Cloudflare Account ID
         id: cf_account
         run: |
-          ACCOUNT_ID=$(npx wrangler whoami --json | jq -r '.accounts[0].id')
+          ACCOUNT_ID=$(npx wrangler whoami 2>&1 | grep -oP '(?<=\| )[a-f0-9]{32}(?= \|)' | head -1)
           echo "account_id=$ACCOUNT_ID" >> $GITHUB_OUTPUT
         env:
           CLOUDFLARE_API_KEY: ${{ secrets.CLOUDFLARE_API_KEY }}
