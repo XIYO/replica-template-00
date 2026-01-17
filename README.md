@@ -2,11 +2,50 @@
 
 Cloudflare Workers에 자동 배포되는 Astro + Starlight 문서 사이트 템플릿.
 
-## 배포 설정
+## 빠른 시작 (CLI)
 
-이 템플릿을 포크/복제한 후 **GitHub Repository Settings**에서 다음 값을 설정하세요.
+### 1. 템플릿에서 새 레포 생성
 
-### 1. Variables 설정
+```bash
+gh repo create {owner}/{repo-name} --template xiyo/replica-template-00 --public
+```
+
+### 2. Secrets 설정
+
+```bash
+REPO="{owner}/{repo-name}"
+
+gh secret set CLOUDFLARE_API_KEY --repo "$REPO" --body "{your-api-key}"
+gh secret set CLOUDFLARE_EMAIL --repo "$REPO" --body "{your-email}"
+gh secret set CLOUDFLARE_ACCOUNT_ID --repo "$REPO" --body "{your-account-id}"
+gh secret set CLOUDFLARE_ZONE_ID --repo "$REPO" --body "{your-zone-id}"
+```
+
+### 3. Variables 설정
+
+```bash
+gh variable set SITE_SUBDOMAIN --repo "$REPO" --body "{your-subdomain}"
+```
+
+### 4. 배포 실행
+
+```bash
+gh workflow run deploy.yml --repo "$REPO" --ref main
+```
+
+### 5. 결과 확인
+
+```bash
+gh run list --repo "$REPO" --limit 1
+```
+
+배포 완료 후 `https://{your-subdomain}.xiyo.dev` 접속
+
+## 배포 설정 (웹 UI)
+
+GitHub Repository Settings에서 수동으로 설정할 수도 있습니다.
+
+### Variables
 
 `Settings > Secrets and variables > Actions > Variables`
 
@@ -14,9 +53,7 @@ Cloudflare Workers에 자동 배포되는 Astro + Starlight 문서 사이트 템
 |------|------|------|
 | `SITE_SUBDOMAIN` | 사이트 서브도메인 | `my-docs` |
 
-> 설정 후 `https://{SITE_SUBDOMAIN}.xiyo.dev`로 접속 가능
-
-### 2. Secrets 설정
+### Secrets
 
 `Settings > Secrets and variables > Actions > Secrets`
 
@@ -25,11 +62,9 @@ Cloudflare Workers에 자동 배포되는 Astro + Starlight 문서 사이트 템
 | `CLOUDFLARE_API_KEY` | Cloudflare Global API Key |
 | `CLOUDFLARE_EMAIL` | Cloudflare 계정 이메일 |
 | `CLOUDFLARE_ACCOUNT_ID` | Cloudflare Account ID |
-| `CLOUDFLARE_ZONE_ID` | xiyo.dev Zone ID |
+| `CLOUDFLARE_ZONE_ID` | 도메인 Zone ID |
 
-### 3. 배포 실행
-
-설정 완료 후:
+### 배포 실행
 
 - `main` 브랜치에 푸시하면 자동 배포
 - 또는 `Actions > Deploy to Cloudflare Workers > Run workflow` 수동 실행
