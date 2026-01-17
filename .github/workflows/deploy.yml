@@ -30,6 +30,29 @@ jobs:
       - name: Create .assetsignore
         run: echo "_worker.js" > dist/.assetsignore
 
+      - name: Ensure DNS record exists
+        run: |
+          SUBDOMAIN="${{ vars.SITE_SUBDOMAIN }}"
+          HOSTNAME="${SUBDOMAIN}.xiyo.dev"
+
+          # Check if DNS record exists
+          EXISTING=$(curl -s "https://api.cloudflare.com/client/v4/zones/${{ secrets.CLOUDFLARE_ZONE_ID }}/dns_records?name=${HOSTNAME}" \
+            -H "X-Auth-Email: ${{ secrets.CLOUDFLARE_EMAIL }}" \
+            -H "X-Auth-Key: ${{ secrets.CLOUDFLARE_API_KEY }}" \
+            | jq -r '.result | length')
+
+          if [ "$EXISTING" = "0" ]; then
+            echo "Creating DNS record for ${HOSTNAME}"
+            curl -s -X POST "https://api.cloudflare.com/client/v4/zones/${{ secrets.CLOUDFLARE_ZONE_ID }}/dns_records" \
+              -H "X-Auth-Email: ${{ secrets.CLOUDFLARE_EMAIL }}" \
+              -H "X-Auth-Key: ${{ secrets.CLOUDFLARE_API_KEY }}" \
+              -H "Content-Type: application/json" \
+              -d "{\"type\":\"AAAA\",\"name\":\"${SUBDOMAIN}\",\"content\":\"100::\",\"proxied\":true}"
+            echo "DNS record created"
+          else
+            echo "DNS record already exists for ${HOSTNAME}"
+          fi
+
       - name: Deploy to Cloudflare Workers with custom domain
         run: |
           npx wrangler deploy \
