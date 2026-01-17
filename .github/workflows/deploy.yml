@@ -70,9 +70,3 @@ jobs:
           CLOUDFLARE_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
-      - name: Submit sitemap to Google
-        if: success()
-        uses: XIYO/replica-builder/actions/submit-sitemap@main
-        with:
-          site-url: https://${{ vars.SITE_SUBDOMAIN }}.xiyo.dev
-          sitemap-path: /sitemap-index.xml
