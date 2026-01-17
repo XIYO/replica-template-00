@@ -30,28 +30,19 @@ jobs:
       - name: Create .assetsignore
         run: echo "_worker.js" > dist/.assetsignore
 
-      - name: Get Cloudflare Account ID
-        id: cf_account
-        run: |
-          ACCOUNT_ID=$(npx wrangler whoami 2>&1 | grep -oP '(?<=\| )[a-f0-9]{32}(?= \|)' | head -1)
-          echo "account_id=$ACCOUNT_ID" >> $GITHUB_OUTPUT
-        env:
-          CLOUDFLARE_API_KEY: ${{ secrets.CLOUDFLARE_API_KEY }}
-          CLOUDFLARE_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
-
       - name: Deploy to Cloudflare Workers
         run: npx wrangler deploy --name "${{ vars.SITE_SUBDOMAIN }}-xiyo-dev"
         env:
           CLOUDFLARE_API_KEY: ${{ secrets.CLOUDFLARE_API_KEY }}
           CLOUDFLARE_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
-          CLOUDFLARE_ACCOUNT_ID: ${{ steps.cf_account.outputs.account_id }}
+          CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
 
       - name: Configure custom domain
         run: |
           SUBDOMAIN="${{ vars.SITE_SUBDOMAIN }}"
           WORKER_NAME="${SUBDOMAIN}-xiyo-dev"
           HOSTNAME="${SUBDOMAIN}.xiyo.dev"
-          ACCOUNT_ID="${{ steps.cf_account.outputs.account_id }}"
+          ACCOUNT_ID="${{ secrets.CLOUDFLARE_ACCOUNT_ID }}"
 
           echo "Setting up custom domain: $HOSTNAME -> $WORKER_NAME"
 
