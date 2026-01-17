@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://replica-template-00.xiyo.dev/sitemap-index.xml
+Sitemap: https://example.xiyo.dev/sitemap-index.xml

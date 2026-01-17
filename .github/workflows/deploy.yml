@@ -37,6 +37,15 @@ jobs:
 
       - run: bun run build
 
+      - name: Generate robots.txt
+        run: |
+          cat > dist/robots.txt << EOF
+          User-agent: *
+          Allow: /
+
+          Sitemap: https://${{ vars.SITE_SUBDOMAIN }}.xiyo.dev/sitemap-index.xml
+          EOF
+
       - name: Create .assetsignore
         run: echo "_worker.js" > dist/.assetsignore
 
@@ -69,4 +78,11 @@ jobs:
           CLOUDFLARE_API_KEY: ${{ secrets.CLOUDFLARE_API_KEY }}
           CLOUDFLARE_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Submit sitemap to Google
+        if: success()
+        uses: XIYO/replica-builder/actions/submit-sitemap@main
+        with:
+          site-url: https://${{ vars.SITE_SUBDOMAIN }}.xiyo.dev
+          sitemap-path: /sitemap-index.xml
 
