@@ -1,40 +1,30 @@
 ---
-title: Welcome to Starlight
-description: Get started building your docs site with Starlight.
-template: splash # Remove or comment out this line to display the site sidebar on this page.
+title: "요즘 IT 이야기"
+description: "빠르게 변화하는 IT 세계의 최신 트렌드와 개발 이야기"
+template: splash
 hero:
-  tagline: Congrats on setting up a new Starlight project!
-  image:
-    file: ../../assets/houston.webp
+  tagline: "AI, 클라우드, 그리고 현대 개발 문화까지 - IT 업계의 핫한 이야기를 만나보세요"
   actions:
-    - text: Example Guide
-      link: /guides/example/
+    - text: "시작하기"
+      link: /trends/ai-revolution/
       icon: right-arrow
-    - text: Read the Starlight docs
-      link: https://starlight.astro.build
-      icon: external
-      variant: minimal
 ---
 
 import { Card, CardGrid } from '@astrojs/starlight/components';
 
-## Next steps
+## 무엇을 다루나요?
 
 <CardGrid stagger>
-	<Card title="Update content" icon="pencil">
-		Edit `src/content/docs/index.mdx` to see this page change.
-	</Card>
-	<Card title="Change page layout" icon="document">
-		Delete `template: splash` in `src/content/docs/index.mdx` to display a
-		sidebar on this page.
-	</Card>
-	<Card title="Add new content" icon="add-document">
-		Add Markdown or MDX files to `src/content/docs` to create new pages.
-	</Card>
-	<Card title="Configure your site" icon="setting">
-		Edit your `sidebar` and other config in `astro.config.mjs`.
-	</Card>
-	<Card title="Read the docs" icon="open-book">
-		Learn more in [the Starlight Docs](https://starlight.astro.build/).
-	</Card>
+  <Card title="IT 트렌드" icon="rocket">
+    AI 혁명, 클라우드 네이티브, 로우코드까지 - 지금 가장 핫한 기술 트렌드를 알아봅니다.
+  </Card>
+  <Card title="개발 이야기" icon="laptop">
+    프론트엔드부터 백엔드, DevOps까지 - 현대 개발자가 알아야 할 모든 것을 다룹니다.
+  </Card>
+  <Card title="실무 인사이트" icon="star">
+    이론만이 아닌 실제 현장에서 겪는 경험과 노하우를 공유합니다.
+  </Card>
+  <Card title="커리어 팁" icon="heart">
+    개발자로서 성장하기 위한 커리어 조언과 학습 방법을 제안합니다.
+  </Card>
 </CardGrid>

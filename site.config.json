@@ -1,6 +1,7 @@
 {
   "subdomain": "replica-template-00",
-  "title": "Replica Template",
+  "title": "요즘 IT 이야기",
+  "description": "빠르게 변화하는 IT 세계의 최신 트렌드와 개발 이야기",
   "siteType": "tech-docs",
   "accentColor": "#3b82f6",
   "githubRepo": "xiyo/replica-template-00"

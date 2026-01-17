@@ -9,6 +9,9 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
       - name: Check required config
         run: |
@@ -66,3 +69,10 @@ jobs:
           CLOUDFLARE_API_KEY: ${{ secrets.CLOUDFLARE_API_KEY }}
           CLOUDFLARE_EMAIL: ${{ secrets.CLOUDFLARE_EMAIL }}
           CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+
+      - name: Submit sitemap to Google
+        if: success()
+        uses: XIYO/replica-builder/actions/submit-sitemap@main
+        with:
+          site-url: https://${{ vars.SITE_SUBDOMAIN }}.xiyo.dev
+          sitemap-path: /sitemap-index.xml

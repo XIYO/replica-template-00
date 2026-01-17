@@ -23,8 +23,8 @@ export default defineConfig({
 				},
 			],
 			sidebar: [
-				{ label: 'Guides', autogenerate: { directory: 'guides' } },
-				{ label: 'Reference', autogenerate: { directory: 'reference' } },
+				{ label: 'IT 트렌드', autogenerate: { directory: 'trends' } },
+				{ label: '개발 이야기', autogenerate: { directory: 'development' } },
 			],
 		}),
 	],
