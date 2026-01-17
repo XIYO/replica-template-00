@@ -23,8 +23,9 @@ export default defineConfig({
 				},
 			],
 			sidebar: [
-				{ label: 'IT 트렌드', autogenerate: { directory: 'trends' } },
-				{ label: '개발 이야기', autogenerate: { directory: 'development' } },
+				{ label: '기본 건강 관리', autogenerate: { directory: 'basic-health' } },
+				{ label: '정신 건강 관리', autogenerate: { directory: 'mental-wellbeing' } },
+				{ label: '심화 건강 전략', autogenerate: { directory: 'advanced-health-strategies' } },
 			],
 		}),
 	],
