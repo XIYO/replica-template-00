@@ -7,7 +7,11 @@ Cloudflare Workers에 자동 배포되는 Astro + Starlight 문서 사이트 템
 ### 1. 템플릿에서 새 레포 생성
 
 ```bash
+# Public
 gh repo create {owner}/{repo-name} --template xiyo/replica-template-00 --public
+
+# Private
+gh repo create {owner}/{repo-name} --template xiyo/replica-template-00 --private
 ```
 
 ### 2. Secrets 설정
