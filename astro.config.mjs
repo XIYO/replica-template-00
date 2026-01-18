@@ -30,9 +30,9 @@ export default defineConfig({
 				},
 			],
 			sidebar: [
-				{ label: '기본 건강 관리', autogenerate: { directory: 'basic-health' } },
-				{ label: '정신 건강 관리', autogenerate: { directory: 'mental-wellbeing' } },
-				{ label: '심화 건강 전략', autogenerate: { directory: 'advanced-health-strategies' } },
+				{ label: '개요', autogenerate: { directory: 'overview' } },
+				{ label: '핵심 기술', autogenerate: { directory: 'core-technologies' } },
+				{ label: '미래 전망', autogenerate: { directory: 'future-outlook' } },
 			],
 		}),
 	],
